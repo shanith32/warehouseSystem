@@ -1,26 +1,26 @@
 import java.util.*;
 import java.lang.*;
 import java.io.*;
-public class Product implements Serializable {
+public class Manufacturer implements Serializable {
   private static final long serialVersionUID = 1L;
   private String name;
-  private String category;
+  private String address;
   private String id;
   private static final String PRODUCT_STRING = "P";
-  private List<Manufacturer> suppliers = new LinkedList<Manufacturer>();
+  private List<Manufacturer> products = new LinkedList<Manufacturer>();
   
-  public Product(String name, String category) {
+  public Manufacturer(String name, String category) {
     this.name = name;
-    this.category = category;
-    id = PRODUCT_STRING + (ProductIdServer.instance()).getId();
+    this.address = category;
+    id = PRODUCT_STRING + (ManufacturerIdServer.instance()).getId();
   }
 
   public String getName() {
     return name;
   }
   
-  public String getCategory() {
-    return category;
+  public String getAddress() {
+    return address;
   }
   
   public String getId() {
@@ -32,6 +32,6 @@ public class Product implements Serializable {
   }
   
   public String toString() {
-      return "Name: " + name + ", Category: " + category + ", ID: " + id;
+      return "Name: " + name + ", Address: " + address + ", ID: " + id;
   }
 }
