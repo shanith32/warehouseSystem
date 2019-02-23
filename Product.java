@@ -1,33 +1,40 @@
+package com.warehouse;
 
-import java.util.*;
-import java.lang.*;
-import java.io.*;
 
-public class Product implements Serializable {
-  private static final long serialVersionUID = 1L;
-  private String productName;
-  private String category;
-  private UUID id;
+import java.util.LinkedList;
+import java.util.List;
 
-  public Product(String productName, String category) {
-    this.productName = productName;
-    this.category = category;
-    this.id = UUID.randomUUID();
-  }
+public class Product {
+	  private static final long serialVersionUID = 1L;
+	  private String name;
+	  private String category;
+	  private String id;
+	  private static final String PRODUCT_STRING = "P";  
+	  private List <Manufacturer> suppliers = new LinkedList<Manufacturer>();
 
-  public String getcategory() {
-    return category;
-  }
+	  public Product(String name, String category) {
+	    this.name = name;
+	    this.category = category;
+	    id = PRODUCT_STRING + (ProductIdServer.instance()).getId();
+	  }
 
-  public String getproductName() {
-    return productName;
-  }
-
-  public UUID getId() {
-    return id;
-  }
-
-  public String toString() {
-    return "productName " + productName + " category " + category + " id " + id;
-  }
+	  public String getName() {
+	    return name;
+	  }
+	  
+	  public String getCategory() {
+	    return category;
+	  }
+	  
+	  public String getId() {
+	    return id;
+	  }
+	  
+	  public boolean equals(String id) {
+		return this.id.equals(id);
+	  }
+	  
+	  public String toString() {
+	      return "Name: " + name + ", Category: " + category + ", ID: " + id;
+	  }
 }
