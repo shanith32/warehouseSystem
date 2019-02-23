@@ -1,4 +1,4 @@
-package com.warehouse;
+// package com.warehouse;
 
 import java.io.Serializable;
 

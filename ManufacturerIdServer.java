@@ -1,18 +1,18 @@
-package com.warehouse;
+
+// package com.warehouse;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
-
 public class ManufacturerIdServer implements Serializable {
-	private  int idCounter;
+	private int idCounter;
 	private static ManufacturerIdServer server;
-	
+
 	private ManufacturerIdServer() {
 		idCounter = 1;
 	}
-	
+
 	public static ManufacturerIdServer instance() {
 		if (server == null) {
 			return (server = new ManufacturerIdServer());
@@ -32,9 +32,9 @@ public class ManufacturerIdServer implements Serializable {
 	public static void retrieve(ObjectInputStream input) {
 		try {
 			server = (ManufacturerIdServer) input.readObject();
-		} catch(IOException ioe) {
+		} catch (IOException ioe) {
 			ioe.printStackTrace();
-		} catch(Exception cnfe) {
+		} catch (Exception cnfe) {
 			cnfe.printStackTrace();
 		}
 	}
@@ -43,7 +43,7 @@ public class ManufacturerIdServer implements Serializable {
 		try {
 			output.defaultWriteObject();
 			output.writeObject(server);
-		} catch(IOException ioe) {
+		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
 	}
@@ -56,7 +56,7 @@ public class ManufacturerIdServer implements Serializable {
 			} else {
 				input.readObject();
 			}
-		} catch(IOException ioe) {
+		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
 	}

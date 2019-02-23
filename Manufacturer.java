@@ -1,9 +1,9 @@
-package com.warehouse;
+
+// package com.warehouse;
 
 import java.util.*;
 import java.lang.*;
 import java.io.*;
-
 
 public class Manufacturer implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -32,7 +32,7 @@ public class Manufacturer implements Serializable {
 	public String getId() {
 		return id;
 	}
-	
+
 	public double getCost() {
 		return cost;
 	}

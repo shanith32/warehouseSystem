@@ -1,9 +1,9 @@
-package com.warehouse;
+
+// package com.warehouse;
 
 import java.util.*;
 import java.lang.*;
 import java.io.*;
-
 
 public class ManufacturerList implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -35,7 +35,7 @@ public class ManufacturerList implements Serializable {
 		try {
 			output.defaultWriteObject();
 			output.writeObject(ManufacturerList);
-		} catch(IOException ioe) {
+		} catch (IOException ioe) {
 			System.out.println(ioe);
 		}
 	}
@@ -52,18 +52,18 @@ public class ManufacturerList implements Serializable {
 					input.readObject();
 				}
 			}
-		} catch(IOException ioe) {
+		} catch (IOException ioe) {
 			System.out.println("in ManufacturerList readObject \n" + ioe);
-		} catch(ClassNotFoundException cnfe) {
+		} catch (ClassNotFoundException cnfe) {
 			cnfe.printStackTrace();
 		}
 	}
 
 	public Manufacturer searchManufacturer(String potentialManufacturerID) {
 		Iterator<Manufacturer> productsIterator = products.iterator();
-		while(productsIterator.hasNext()) {
-			Manufacturer pManufacturer = (Manufacturer)productsIterator.next();
-			if(pManufacturer.getId().equals(potentialManufacturerID)) {
+		while (productsIterator.hasNext()) {
+			Manufacturer pManufacturer = (Manufacturer) productsIterator.next();
+			if (pManufacturer.getId().equals(potentialManufacturerID)) {
 				return pManufacturer;
 			}
 		}
