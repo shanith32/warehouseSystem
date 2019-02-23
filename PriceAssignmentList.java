@@ -26,36 +26,49 @@ public class PriceAssignmentList implements Serializable {
         return true;
     }
 
-    public Iterator getPriceAssignments() {
+    public Iterator<PriceAssignment> Assignments() {
         return PriceAssignments.iterator();
     }
 
-    // private void writeObject(java.io.ObjectOutputStream output) {
-    // try {
-    // output.defaultWriteObject();
-    // output.writeObject(PriceAssignmentList);
-    // } catch (IOException ioe) {
-    // System.out.println(ioe);
-    // }
-    // }
+    private void writeObject(java.io.ObjectOutputStream output) {
+        try {
+            output.defaultWriteObject();
+            output.writeObject(PriceAssignmentList);
+        } catch (IOException ioe) {
+            System.out.println(ioe);
+        }
+    }
 
-    // private void readObject(java.io.ObjectInputStream input) {
-    // try {
-    // if (PriceAssignmentList != null) {
-    // return;
-    // } else {
-    // input.defaultReadObject();
-    // if (PriceAssignmentList == null) {
-    // PriceAssignmentList = (PriceAssignmentList) input.readObject();
-    // } else {
-    // input.readObject();
+    private void readObject(java.io.ObjectInputStream input) {
+        try {
+            if (PriceAssignmentList != null) {
+                return;
+            } else {
+                input.defaultReadObject();
+                if (PriceAssignmentList == null) {
+                    PriceAssignmentList = (PriceAssignmentList) input.readObject();
+                } else {
+                    input.readObject();
+                }
+            }
+        } catch (IOException ioe) {
+            System.out.println("in PriceAssignmentList readObject \n" + ioe);
+        } catch (ClassNotFoundException cnfe) {
+            cnfe.printStackTrace();
+        }
+    }
+
+    // public PriceAssignment searchPriceAssignment(String
+    // potentialPriceAssignmentID) {
+    // Iterator<PriceAssignment> priceAssignmentsIterator =
+    // PriceAssignments.iterator();
+    // while (priceAssignmentsIterator.hasNext()) {
+    // PriceAssignment pProduct = (Product) priceAssignmentsIterator.next();
+    // if (pProduct.getId().equals(potentialPriceAssignmentID)) {
+    // return pProduct;
     // }
     // }
-    // } catch (IOException ioe) {
-    // System.out.println("in PriceAssignmentList readObject \n" + ioe);
-    // } catch (ClassNotFoundException cnfe) {
-    // cnfe.printStackTrace();
-    // }
+    // return null;
     // }
 
     public String toString() {

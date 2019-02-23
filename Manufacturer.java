@@ -12,7 +12,7 @@ public class Manufacturer implements Serializable {
 	private String id;
 	private double cost;
 	private int quantity;
-	private static final String MANUFACTURER_STRING = "P";
+	private static final String MANUFACTURER_STRING = "M";
 	private List<Manufacturer> products = new LinkedList<Manufacturer>();
 
 	public Manufacturer(String name, String address) {

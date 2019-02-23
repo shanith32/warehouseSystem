@@ -7,28 +7,25 @@ import java.io.*;
 
 public class PriceAssignment implements Serializable {
   private static final long serialVersionUID = 1L;
-  private UUID mid;
-  private UUID pid;
-  private Double price;
-  private UUID id;
+  private static final String PRICEASSIGNMENT_STRING = "PA";
+  private String mid;
+  private String pid;
+  private double price;
+  private String id;
 
-  public PriceAssignment(UUID mid, UUID pid, Double price) {
+  public PriceAssignment(String mid, String pid, double price) {
     this.mid = mid;
     this.pid = pid;
     this.price = price;
-    this.id = UUID.randomUUID();
+    id = PRICEASSIGNMENT_STRING + (PriceAssignmentIdServer.instance()).getId();
   }
 
-  // public String getcategory() {
-  // return category;
-  // }
-
-  // public String getPriceAssignmentName() {
-  // return PriceAssignmentName;
-  // }
-
-  public UUID getId() {
+  public String getId() {
     return id;
+  }
+
+  public boolean equals(String id) {
+    return this.id.equals(id);
   }
 
   @Override
