@@ -29,6 +29,6 @@ public class PriceAssignment implements Serializable {
   }
 
   public String toString() {
-    return "Manufacturer with id " + mid + " supplies the product with id " + pid + " for $" + price;
+    return " ID => " + id + " MID => " + mid + " PID => " + pid + " Price => $" + price;
   }
 }

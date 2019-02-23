@@ -21,17 +21,38 @@ public class PriceAssignmentList implements Serializable {
         }
     }
 
+    // Assign a new price assignment
     public boolean insertPriceAssignment(PriceAssignment PriceAssignment) {
         PriceAssignments.add(PriceAssignment);
         return true;
     }
 
+    // Get a price assignment by id
     public PriceAssignment getAssignmentbyId(String id) {
-        // Should return the PriceAssignment object from the list for the given id
+        Iterator<PriceAssignment> PriceAssignmentIterator = PriceAssignments.iterator();
+        while (PriceAssignmentIterator.hasNext()) {
+            PriceAssignment pAssignment = (PriceAssignment) PriceAssignmentIterator.next();
+            if (pAssignment.getId().equals(id)) {
+                return pAssignment;
+            }
+        }
+        return null;
     }
 
+    // Unassign or delete a price assginment
     public boolean deleteAssignmentbyId(String id) {
-        // Should delete the PriceAssignment object from the list for the given id
+        int counter = 0;
+
+        Iterator<PriceAssignment> PriceAssignmentIterator = PriceAssignments.iterator();
+        while (PriceAssignmentIterator.hasNext()) {
+            PriceAssignment pAssignment = (PriceAssignment) PriceAssignmentIterator.next();
+            if (pAssignment.getId().equals(id)) {
+                PriceAssignments.remove(counter);
+                return true;
+            }
+            counter += 1;
+        }
+        return false;
     }
 
     public String getManufacturersForProduct(String pid) {
@@ -73,19 +94,6 @@ public class PriceAssignmentList implements Serializable {
             cnfe.printStackTrace();
         }
     }
-
-    // public PriceAssignment searchPriceAssignment(String
-    // potentialPriceAssignmentID) {
-    // Iterator<PriceAssignment> priceAssignmentsIterator =
-    // PriceAssignments.iterator();
-    // while (priceAssignmentsIterator.hasNext()) {
-    // PriceAssignment pProduct = (Product) priceAssignmentsIterator.next();
-    // if (pProduct.getId().equals(potentialPriceAssignmentID)) {
-    // return pProduct;
-    // }
-    // }
-    // return null;
-    // }
 
     public String toString() {
         return PriceAssignments.toString();
