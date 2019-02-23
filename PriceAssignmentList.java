@@ -26,6 +26,22 @@ public class PriceAssignmentList implements Serializable {
         return true;
     }
 
+    public PriceAssignment getAssignmentbyId(String id) {
+        // Should return the PriceAssignment object from the list for the given id
+    }
+
+    public boolean deleteAssignmentbyId(String id) {
+        // Should delete the PriceAssignment object from the list for the given id
+    }
+
+    public String getManufacturersForProduct(String pid) {
+        // Should return a list of mid's for the given pid
+    }
+
+    public String getProductsForManufacturer(String pid) {
+        // Should return a list of pid's for the given mid
+    }
+
     public Iterator<PriceAssignment> Assignments() {
         return PriceAssignments.iterator();
     }

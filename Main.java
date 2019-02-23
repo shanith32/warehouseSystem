@@ -7,21 +7,21 @@ public class Main {
         // Create PriceAssignment objects
         PriceAssignment newpriceAssignment = new PriceAssignment("m1", "p1", 4.3);
         String doc = newpriceAssignment.getId();
-        System.out.print("This new ID is: " + doc);
+        System.out.println("This new ID is: " + doc);
 
         // Create PriceAssignment2 objects
-        PriceAssignment newpriceAssignment2 = new PriceAssignment("m1", "p1", 4.3);
+        PriceAssignment newpriceAssignment2 = new PriceAssignment("m2", "p2", 4.3);
         String doc2 = newpriceAssignment2.getId();
-        System.out.print("This new ID is: " + doc2);
+        System.out.println("This new ID is: " + doc2);
 
-        // // Add the PriceAssignment objects to the PriceAssignment list class
-        // PriceAssignmentList thePriceAssignmentList = PriceAssignmentList.instance();
-        // thePriceAssignmentList.insertPriceAssignment(newpriceAssignment);
-        // thePriceAssignmentList.insertPriceAssignment(newpriceAssignment2);
+        // Add the PriceAssignment objects to the PriceAssignment list class
+        PriceAssignmentList thePriceAssignmentList = PriceAssignmentList.instance();
+        thePriceAssignmentList.insertPriceAssignment(newpriceAssignment);
+        thePriceAssignmentList.insertPriceAssignment(newpriceAssignment2);
 
-        // // // Get as a String
-        // // String info = thePriceAssignmentList.toString();
-        // // System.out.print("String: " + info + " ");
+        // Get as a String
+        String info = thePriceAssignmentList.toString();
+        System.out.println("String: " + info + " ");
 
         // // Get as an iterator
         // Iterator<PriceAssignment> itr = thePriceAssignmentList.getPriceAssignments();
