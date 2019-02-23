@@ -17,18 +17,17 @@ public class PriceAssignment implements Serializable {
     this.mid = mid;
     this.pid = pid;
     this.price = price;
-    id = PRICEASSIGNMENT_STRING + (PriceAssignmentIdServer.instance()).getId();
+    this.id = PRICEASSIGNMENT_STRING + (PriceAssignmentIdServer.instance()).getId();
   }
 
   public String getId() {
-    return id;
+    return this.id;
   }
 
   public boolean equals(String id) {
     return this.id.equals(id);
   }
 
-  @Override
   public String toString() {
     return "Manufacturer with id " + mid + " supplies the product with id " + pid + " for $" + price;
   }
