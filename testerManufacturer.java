@@ -35,10 +35,6 @@ public class testerManufacturer {
         System.out.println(manufacturerlist.searchManufacturer("M2"));
         
         System.out.println("==========================================================");
-
-        
-        
-        
-        
+       
     }     
 }

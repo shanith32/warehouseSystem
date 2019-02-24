@@ -69,7 +69,7 @@ public class UserInterface {
 		try {
 			Warehouse tempWarehouse = Warehouse.retrieve();
 			if (tempWarehouse != null) {
-				System.out.println("The warehouse has been successfully retrieved from the file LibraryData \n");
+				System.out.println("The warehouse has been successfully retrieved from the file WarehouseData \n");
 				warehouse = tempWarehouse;
 			} else {
 				System.out.println("File doesnt exist; creating new warehouse");
@@ -88,37 +88,35 @@ public class UserInterface {
 					return value;
 				}
 			} catch (NumberFormatException nfe) {
-				System.out.println("Enter a number");
+				System.out.println("Enter a number: ");
 			}
 		} while (true);
 	}
 
 	public void help() {
 		System.out.println(" Enter a choice from 0 through 9 as shown below:");
-		System.out.println("|================================================|");
-		System.out.println("|" + EXIT + ".Exit out\t\t\t\t\t " + "|");
-		System.out.println("|" + ADD_CLIENT + ".Add a client\t\t\t\t\t " + "|");
-		System.out.println("|" + ADD_MANUFACTURER + ".Add a manufacturer\t\t\t\t" + " |");
-		System.out.println("|" + ADD_PRODUCTS + ".Add products\t\t\t\t\t" + " |");
-		System.out.println("|" + DISPLAY_CLIENTS + ".Display list of clients \t\t\t " + "|");
-		System.out.println("|" + SHOW_MANUFACTURERS + ".Display list of manufacturers \t\t" + " |");
-		System.out.println("|" + SHOW_PRODUCTS + ".Display list of products\t\t\t " + "|");
-		System.out.println("|" + ASSIGN_PRICE + ".Assign a product to a manufacturer with a price\t\t\t " + "|");
-		System.out.println("|" + UNASSIGN_PRICE + ".Unassign a product from a manufacturer\t\t\t " + "|");
-		System.out
-				.println("|" + GET_PRODUCT_BY_SUPPLIER + ".Display a list of products for a manufacturer\t\t\t " + "|");
-		System.out
-				.println("|" + GET_SUPPLIER_BY_PRODUCT + ".Display a list of manufacturers for a product\t\t\t " + "|");
-		System.out.println("|" + SAVE + ".Save the data \t\t\t\t " + "|");
-		System.out.println("|" + RETRIEVE + ".Retrieve \t\t\t\t\t " + "|");
-		System.out.println("|" + HELP + ".Help \t\t\t\t\t\t " + "|");
-		System.out.println("=================================================|");
+		System.out.println("|====================================================|");
+		System.out.println("| " + EXIT                    + ".Exit out                                         |");
+		System.out.println("| " + ADD_CLIENT              + ".Add a client                                     |");
+		System.out.println("| " + ADD_MANUFACTURER        + ".Add a manufacturer                               |");
+		System.out.println("| " + ADD_PRODUCTS            + ".Add products                                     |");
+		System.out.println("| " + DISPLAY_CLIENTS         + ".Display list of clients                          |");
+		System.out.println("| " + SHOW_MANUFACTURERS      + ".Display list of manufacturers                    |");
+		System.out.println("| " + SHOW_PRODUCTS           + ".Display list of products                         |");
+		System.out.println("| " + ASSIGN_PRICE            + ".Assign a product to a manufacturer with a price  |");
+		System.out.println("| " + UNASSIGN_PRICE          + ".Unassign a product from a manufacturer           |");
+		System.out.println("| " + GET_PRODUCT_BY_SUPPLIER + ".Display a list of products for a manufacturer    |");
+		System.out.println("| " + GET_SUPPLIER_BY_PRODUCT + ".Display a list of manufacturers for a product   |");
+		System.out.println("| " + SAVE                    + ".Save the data                                   |");
+		System.out.println("| " + RETRIEVE                + ".Retrieve                                        |");
+		System.out.println("| " + HELP                    + ".Help                                            |");
+		System.out.println("|====================================================|");
 	}
 
 	public void addClient() {
-		String name = getToken("Enter client name");
-		String address = getToken("Enter address");
-		String phoneNumber = getToken("Enter phone");
+		String name = getToken("Enter client name: ");
+		String address = getToken("Enter address: ");
+		String phoneNumber = getToken("Enter phone: ");
 		if (warehouse.addClient(name, address, phoneNumber)) {
 			System.out.println("Client has been successfully added.");
 		} else {
@@ -129,7 +127,6 @@ public class UserInterface {
 	public void addManufacturer() {
 		String name = getToken("Enter manufacturer name: ");
 		String address = getToken("Enter address: ");
-		String phone = getToken("Enter phone: ");
 		Manufacturer result;
 		result = warehouse.addManufacturer(name, address);
 		if (result == null) {
@@ -142,7 +139,6 @@ public class UserInterface {
 		Product result;
 		do {
 			String name = getToken("Enter name: ");
-			String productID = getToken("Enter id: ");
 			String category = getToken("Enter category: ");
 			result = warehouse.addProduct(name, category);
 			if (result != null) {
