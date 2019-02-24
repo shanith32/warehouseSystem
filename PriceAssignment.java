@@ -10,17 +10,17 @@ public class PriceAssignment implements Serializable {
 	private static final String PRICEASSIGNMENT_STRING = "PA";
 	private String mid;
 	private String pid;
-	private double price;
+	private String price;
 	private String id;
 
-	public PriceAssignment(String mid, String pid, double price) {
+	public PriceAssignment(String mid, String pid, String price) {
 		this.mid = mid;
 		this.pid = pid;
 		this.price = price;
 		this.id = PRICEASSIGNMENT_STRING + (PriceAssignmentIdServer.instance()).getId();
 	}
 
-	public double getPrice() {
+	public String getPrice() {
 		return price;
 	}
 

@@ -1,6 +1,7 @@
 
 // package com.warehouse;
 
+import java.awt.List;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,11 +16,13 @@ public class Warehouse implements Serializable {
 	private ClientList clientList;
 	private ProductList productlist;
 	private ManufacturerList manufacturerlist;
+	private PriceAssignmentList priceassignmentlist;
 
 	private Warehouse() {
 		clientList = clientList.instance();
 		productlist = ProductList.instance();
 		manufacturerlist = ManufacturerList.instance();
+		priceassignmentlist = PriceAssignmentList.instance();
 	}
 
 	public static Warehouse instance() {
@@ -27,6 +30,7 @@ public class Warehouse implements Serializable {
 			ClientIDServer.instance(); // instantiate all singletons
 			ManufacturerIdServer.instance();
 			ProductIdServer.instance();
+			PriceAssignmentIdServer.instance();
 			return (warehouse = new Warehouse());
 		} else {
 			return warehouse;
@@ -52,6 +56,27 @@ public class Warehouse implements Serializable {
 			return (manufacturer);
 		}
 		return null;
+	}
+
+	// Assign product to a manufacturer
+	public boolean assignProductToManufacturer(String mid, String pid, String price) {
+		PriceAssignment priceAssignment = new PriceAssignment(mid, pid, price);
+		return priceassignmentlist.insertPriceAssignment(priceAssignment);
+	}
+
+	// Unassign product from a manufacturer
+	public boolean unassignProductfromManufacturer(String mid, String pid) {
+		return priceassignmentlist.deleteAssignmentbyId(mid, pid);
+	}
+
+	// Get a list of suppliers for a product with price
+	public java.util.List<String> getSupplierbyProduct(String pid) {
+		return priceassignmentlist.getManufacturersForProduct(pid);
+	}
+
+	// Get a list of products for a supplier
+	public java.util.List<String> getProductbySupplier(String mid) {
+		return priceassignmentlist.getProductsForManufacturer(mid);
 	}
 
 	public Iterator getClients() {

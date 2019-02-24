@@ -40,13 +40,13 @@ public class PriceAssignmentList implements Serializable {
     }
 
     // Unassign or delete a price assginment
-    public boolean deleteAssignmentbyId(String id) {
+    public boolean deleteAssignmentbyId(String mid, String pid) {
         int counter = 0;
-        
+
         Iterator<PriceAssignment> PriceAssignmentIterator = PriceAssignments.iterator();
         while (PriceAssignmentIterator.hasNext()) {
             PriceAssignment pAssignment = (PriceAssignment) PriceAssignmentIterator.next();
-            if (pAssignment.getId().equals(id)) {
+            if (pAssignment.getMid().equals(mid) && pAssignment.getPid().equals(pid)) {
                 PriceAssignments.remove(counter);
                 return true;
             }
@@ -55,24 +55,26 @@ public class PriceAssignmentList implements Serializable {
         return false;
     }
 
-    public List<String> getManufacturersForProduct(String pid) {// Should return a list of mid's for the given pid
-    	List<String> newList = new LinkedList<>();
-    	for(PriceAssignment tempPrice: PriceAssignments) {
-        	if (tempPrice.getPid() == pid) {
-				newList.add(tempPrice.getMid());
-			}
+    // Should return a list of mid's for the given pid
+    public List<String> getManufacturersForProduct(String pid) {
+        List<String> newList = new LinkedList<>();
+        for (PriceAssignment tempPrice : PriceAssignments) {
+            if (tempPrice.getPid() == pid) {
+                newList.add("Manufacturer ID: " + tempPrice.getMid() + " Price: $" + tempPrice.getPrice());
+            }
         }
-    	return newList;
+        return newList;
     }
 
-    public List<String> getProductsForManufacturer(String mid) {// Should return a list of pid's for the given mid
+    // Should return a list of pid's for the given mid
+    public List<String> getProductsForManufacturer(String mid) {
         List<String> newList = new LinkedList<>();
-    	for(PriceAssignment tempPrice: PriceAssignments) {
-        	if (tempPrice.getMid() == mid) {
-				newList.add(tempPrice.getPid());
-			}
+        for (PriceAssignment tempPrice : PriceAssignments) {
+            if (tempPrice.getMid() == mid) {
+                newList.add("Product ID: " + tempPrice.getPid() + " Price: $" + tempPrice.getPrice());
+            }
         }
-    	return newList;
+        return newList;
     }
 
     public Iterator<PriceAssignment> Assignments() {
