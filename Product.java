@@ -9,7 +9,6 @@ public class Product {
 	private String category;
 	private String id;
 	private static final String PRODUCT_STRING = "P";
-	private List<Manufacturer> suppliers = new LinkedList<Manufacturer>();
 
 	public Product(String name, String category) {
 		this.name = name;
