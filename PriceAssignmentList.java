@@ -42,7 +42,7 @@ public class PriceAssignmentList implements Serializable {
     // Unassign or delete a price assginment
     public boolean deleteAssignmentbyId(String id) {
         int counter = 0;
-
+        
         Iterator<PriceAssignment> PriceAssignmentIterator = PriceAssignments.iterator();
         while (PriceAssignmentIterator.hasNext()) {
             PriceAssignment pAssignment = (PriceAssignment) PriceAssignmentIterator.next();
@@ -55,12 +55,24 @@ public class PriceAssignmentList implements Serializable {
         return false;
     }
 
-    public String getManufacturersForProduct(String pid) {
-        // Should return a list of mid's for the given pid
+    public List<String> getManufacturersForProduct(String pid) {// Should return a list of mid's for the given pid
+    	List<String> newList = new LinkedList<>();
+    	for(PriceAssignment tempPrice: PriceAssignments) {
+        	if (tempPrice.getPid() == pid) {
+				newList.add(tempPrice.getMid());
+			}
+        }
+    	return newList;
     }
 
-    public String getProductsForManufacturer(String pid) {
-        // Should return a list of pid's for the given mid
+    public List<String> getProductsForManufacturer(String mid) {// Should return a list of pid's for the given mid
+        List<String> newList = new LinkedList<>();
+    	for(PriceAssignment tempPrice: PriceAssignments) {
+        	if (tempPrice.getMid() == mid) {
+				newList.add(tempPrice.getPid());
+			}
+        }
+    	return newList;
     }
 
     public Iterator<PriceAssignment> Assignments() {
