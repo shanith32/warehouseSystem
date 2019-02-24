@@ -1,4 +1,5 @@
 //Author: Subi Dangol
+//Group 1
 
 public class testerProduct {
     public static void main(String[] args) {

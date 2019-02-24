@@ -1,9 +1,10 @@
 // package com.warehouse;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.lang.*;
+import java.io.*;
 
-public class Product {
+public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private String category;

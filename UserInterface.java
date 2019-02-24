@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Iterator;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class UserInterface {
@@ -26,6 +27,7 @@ public class UserInterface {
 	private static final int RETRIEVE = 12;
 	private static final int HELP = 13;
 
+	
 	private UserInterface() {
 		if (yesOrNo("Look for saved data and use it?")) {
 			retrieve();
@@ -199,19 +201,31 @@ public class UserInterface {
 
 	public void getProductBySupplier() {
 		String mid = getToken("Enter the manufacturer's ID");
-		System.out.println(warehouse.getProductbySupplier(mid));
-
+		List<String> myList = warehouse.getProductbySupplier(mid);
+		if(myList.isEmpty()) {
+			System.out.println("There is no products assigned to manufacturer with ID " + mid);
+		}
+		else {
+			System.out.println(warehouse.getProductbySupplier(mid));
+			System.out.println();
+		}	
 	}
 
 	public void getSupplierByProduct() {
 		String pid = getToken("Enter the product's ID");
-		System.out.println(warehouse.getSupplierbyProduct(pid));
-
+		List<String> myList = warehouse.getSupplierbyProduct(pid);
+		if(myList.isEmpty()) {
+			System.out.println("There is no manufacturers assigned to product with ID " + pid);
+		}
+		else {
+			System.out.println(warehouse.getSupplierbyProduct(pid));
+			System.out.println();
+		}
 	}
 
 	public void save() {
 		if (warehouse.save()) {
-			System.out.println("The warehouse has been successfully saved in the file LibraryData \n");
+			System.out.println("The warehouse has been successfully saved in the file WarehouseData \n");
 		} else {
 			System.out.println("An error has occurred while trying to save \n");
 		}

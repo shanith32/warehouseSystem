@@ -7,7 +7,7 @@ import java.io.*;
 
 public class ManufacturerList implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private List<Manufacturer> products = new LinkedList<Manufacturer>();
+	private List<Manufacturer> manufacturers = new LinkedList<Manufacturer>();
 	private static ManufacturerList ManufacturerList;
 
 	private ManufacturerList() {
@@ -23,12 +23,12 @@ public class ManufacturerList implements Serializable {
 	}
 
 	public boolean insertManufacturer(Manufacturer product) {
-		products.add(product);
+		manufacturers.add(product);
 		return true;
 	}
 
 	public Iterator<Manufacturer> getManufacturers() {
-		return products.iterator();
+		return manufacturers.iterator();
 	}
 
 	private void writeObject(java.io.ObjectOutputStream output) {
@@ -60,7 +60,7 @@ public class ManufacturerList implements Serializable {
 	}
 
 	public Manufacturer searchManufacturer(String potentialManufacturerID) {
-		Iterator<Manufacturer> productsIterator = products.iterator();
+		Iterator<Manufacturer> productsIterator = manufacturers.iterator();
 		while (productsIterator.hasNext()) {
 			Manufacturer pManufacturer = (Manufacturer) productsIterator.next();
 			if (pManufacturer.getId().equals(potentialManufacturerID)) {
@@ -71,7 +71,7 @@ public class ManufacturerList implements Serializable {
 	}
 
 	public String toString() {
-		return products.toString();
+		return manufacturers.toString();
 	}
 
 }
