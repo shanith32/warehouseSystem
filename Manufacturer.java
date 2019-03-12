@@ -1,4 +1,3 @@
-
 // package com.warehouse;
 
 import java.util.*;
@@ -11,6 +10,7 @@ public class Manufacturer implements Serializable {
 	private String address;
 	private String id;
 	private static final String MANUFACTURER_STRING = "M";
+	private List<OrderWithManufacturer> orders = new LinkedList<OrderWithManufacturer>();
 
 	public Manufacturer(String name, String address) {
 		this.name = name;
@@ -34,7 +34,16 @@ public class Manufacturer implements Serializable {
 		return this.id.equals(id);
 	}
 
+	public void addOrderWithManufacturer(OrderWithManufacturer orderWithManufacturer) {
+		orders.add(orderWithManufacturer);
+	}
+	
+	public Iterator getOrders() {
+		return orders.iterator();
+	}
+	
+	@Override
 	public String toString() {
-		return "Name: " + name + ", Address: " + address + ", ID: " + id;
+		return "Manufacturer Info: \nName: " + name + "\nAddress: " + address + "\nID: " + id + "\n";
 	}
 }

@@ -64,6 +64,7 @@ public class ManufacturerList implements Serializable {
 		while (productsIterator.hasNext()) {
 			Manufacturer pManufacturer = (Manufacturer) productsIterator.next();
 			if (pManufacturer.getId().equals(potentialManufacturerID)) {
+				System.out.println("Manufacturer matched");
 				return pManufacturer;
 			}
 		}

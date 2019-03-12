@@ -16,7 +16,8 @@ public class Client implements Serializable {
 		this.name = name;
 		this.address = address;
 		this.phoneNumber = phone;
-		clientID = CLIENT_STRING + (ClientIDServer.instance()).getId();
+		this.balance = 0.0;
+		clientID = CLIENT_STRING + (ClientIDServer.instance()).getId();		
 	}
 
 	public String getClientName() {
@@ -58,29 +59,24 @@ public class Client implements Serializable {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
-	public void makePayment(double amount) {
-		if(balance > 0.0) {
-			balance = balance - amount;
-		}
-		else {
-			System.out.println("There is no invoice amount to be paid.");
-		}
-	}
 	
 	public void charge(double amount) {
 		balance = balance + amount;
 	}
 
 	boolean isEqual(String clientID) {
-		boolean isEqual;
 		if(this.clientID.equals(clientID)) {
-			isEqual = true;
+			return true;
 		}
-		else {
-			isEqual = false;
+		return false;
+	}
+
+	public boolean isOutstanding() {
+		if(balance > 0) {
+			return true;
 		}
-		return isEqual;
+		return false;
+
 	}
 
 	@Override
