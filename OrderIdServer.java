@@ -1,36 +1,30 @@
-// package com.warehouse;
+import java.io.*;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
+public class OrderIdServer implements Serializable {
 
-public class ProductIdServer implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private int idCounter;
-	private static ProductIdServer server;
+	private static OrderIdServer server;
 
-	private ProductIdServer() {
-		idCounter = 1;
-	}
-
-	public static ProductIdServer instance() {
+	public static OrderIdServer instance() {
 		if (server == null) {
-			return (server = new ProductIdServer());
+			return (server = new OrderIdServer());
 		} else {
 			return server;
 		}
+	}
+	
+	private OrderIdServer() {
+		idCounter = 1;
 	}
 
 	public int getId() {
 		return idCounter++;
 	}
 
-	public String toString() {
-		return ("IdServer" + idCounter);
-	}
-
 	public static void retrieve(ObjectInputStream input) {
 		try {
-			server = (ProductIdServer) input.readObject();
+			server = (OrderIdServer) input.readObject();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		} catch (Exception cnfe) {
@@ -51,7 +45,7 @@ public class ProductIdServer implements Serializable {
 		try {
 			input.defaultReadObject();
 			if (server == null) {
-				server = (ProductIdServer) input.readObject();
+				server = (OrderIdServer) input.readObject();
 			} else {
 				input.readObject();
 			}
@@ -59,4 +53,10 @@ public class ProductIdServer implements Serializable {
 			ioe.printStackTrace();
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return ("IdServer" + idCounter);
+	}
 }
+
