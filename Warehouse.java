@@ -1,4 +1,3 @@
-
 // package com.warehouse;
 
 import java.awt.List;
@@ -18,16 +17,16 @@ public class Warehouse implements Serializable {
 	private ProductList productList;
 	private ManufacturerList manufacturerList;
 	private ProductManufacturerList productManufacturerList;
-	private ProcessedOrderList processedOrderList;
-	private WaitList waitList;
+	private OrderList orderList;
+	//private WaitList waitList;
 
 	private Warehouse() {
 		clientList = clientList.instance();
 		productList = ProductList.instance();
 		manufacturerList = ManufacturerList.instance();
 		productManufacturerList = ProductManufacturerList.instance();
-		processedOrderList = ProcessedOrderList.instance();
-		waitList = WaitList.instance();
+		orderList = OrderList.instance();
+		//waitList = WaitList.instance();
 	}
 
 	public static Warehouse instance() {
@@ -35,7 +34,6 @@ public class Warehouse implements Serializable {
 			ClientIDServer.instance(); // instantiate all singletons
 			ManufacturerIdServer.instance();
 			ProductIdServer.instance();
-			//ProductManufacturerIdServer.instance();
 			return (warehouse = new Warehouse());
 		} else {
 			return warehouse;
@@ -98,32 +96,79 @@ public class Warehouse implements Serializable {
 	public Iterator getManufacturers() {
 		return manufacturerList.getManufacturers();
 	}
-	
-	public Iterator getWaitlistedOrders() {
-		return waitList.getOrders();
-	}
 
-	public void processOrder(Client client, ProductManufacturer productManufacturer, int quantity, Order order) {
-		productManufacturer.setQuantity(productManufacturer.getQuantity() - quantity);
-		client.setBalance(client.getBalance() + order.getTotal());
+//	public Iterator getWaitlistedOrders() {
+//		return waitList.getOrders();
+//	}
+
+    public Client searchForClient(String clientID) {
+    	Client client = clientList.searchClient(clientID);
+        return client;
+    }
+    
+    public Product searchForProduct(String productID) {
+    	Product product = productList.searchProduct(productID);
+    	return product;
+    }
+	
+	//added and checked
+	public boolean addLineItem(Order order, String productID, String manufacturerID, int quantity) {
+		ProductManufacturer productManufacturer = productManufacturerList.searchProductManufacturer(productID, manufacturerID);
+		Client client = clientList.searchClient(order.getClientId());
+		order.addLineItem(productManufacturer, quantity);
+		if (productManufacturer != null && client != null) {
+			if (productManufacturer.getQuantity() < quantity) {
+				order.setCanProcess(false);
+			}			
+			return true;	
+		} else {
+			return false;
+		}
 	}
 	
-	public int addOrder(String clientID, String productID, String manufacturerID, int quantity) {
-		ProductManufacturer productManufacturer = productManufacturerList.searchProductManufacturer(productID, manufacturerID);
-		Client client = clientList.searchClient(clientID);
-		if (productManufacturer != null && client != null) {
-			Order order = new Order(clientID, productManufacturer, quantity);
-			if (productManufacturer.getQuantity() >= quantity) {
-				processedOrderList.insertOrder(order);
-				processOrder(client, productManufacturer, quantity, order);
-				return 0;
-			} else {
-				waitList.insertOrder(order);
-				return 1;
+	public boolean checkOrder(Order order) {
+		if(order.canProcess() == true) {
+			processOrder(order);
+			return true;
+		} else {
+			Client client = clientList.searchClient(order.getClientId());
+			client.addWaitListOrderID(order.getId());
+			Iterator lineItems = order.getLineItems();
+			while(lineItems.hasNext()) {
+				LineItem lineItem = (LineItem) lineItems.next();
+				ProductManufacturer productManufactuer = lineItem.getProductManufacturer();
+				Product product = productList.searchProduct(productManufactuer.getPid());
+				product.addWaitListOrderID(order.getId());
 			}
+			return false;
 		}
-		return 2;
 	}
+	
+	public void processOrder(Order order) {
+		Iterator lineItems = order.getLineItems();
+		while(lineItems.hasNext()) {
+			LineItem lineItem = (LineItem) lineItems.next();
+			ProductManufacturer productManufacturer = lineItem.getProductManufacturer();
+			productManufacturer.deductQuantity(lineItem.getQuantity());
+			Client client = clientList.searchClient(order.getClientId());
+			client.charge(lineItem.getTotal());
+		}
+	}
+	
+	public Order addOrder(String clientID) {
+		Client client = clientList.searchClient(clientID);
+		if (client != null) {
+			Order order = new Order(clientID);
+			orderList.insertOrder(order);
+			return order;
+		}
+		return null;
+	}
+	
+	public Order searchForOrder(String orderID) {
+    	Order order = orderList.searchOrder(orderID);
+        return order;
+    }
 	
 	public int makePayment(String clientID, double amount) {
 		Client client = clientList.searchClient(clientID);

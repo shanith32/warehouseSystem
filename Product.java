@@ -11,7 +11,8 @@ public class Product implements Serializable {
 	private String id;
 	private static final String PRODUCT_STRING = "P";
 	private List<OrderWithManufacturer> orders = new LinkedList<OrderWithManufacturer>();
-
+	private List <String> waitListOrderIDs = new LinkedList();
+	
 	public Product(String name, String category) {
 		this.name = name;
 		this.category = category;
@@ -38,6 +39,14 @@ public class Product implements Serializable {
 		orders.add(orderWithManufacturer);
 	}
 
+	public Iterator getWaitListOrderIDs(){
+        return waitListOrderIDs.iterator();
+    }
+	
+	public void addWaitListOrderID(String orderId){
+        waitListOrderIDs.add(orderId);
+    }
+	
 	public String toString() {
 		return "Product Info: \nName: " + name + "\nCategory: " + category + "\nID: " + id + "\n";
 	}

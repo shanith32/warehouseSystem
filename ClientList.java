@@ -24,11 +24,9 @@ public class ClientList implements Serializable {
 		while (clientsIterator.hasNext()) {
 			Client pClient = (Client) clientsIterator.next();
 			if (pClient.getClientID().equals(potentialClientID)) {
-				// System.out.println("Client with ID " + potentialClientID + " was found.");
 				return pClient;
 			}
 		}
-		// System.out.println("Client not found.");
 		return null;
 	}
 

@@ -1,4 +1,3 @@
-
 // package com.warehouse;
 
 import java.io.BufferedReader;
@@ -245,19 +244,32 @@ public class UserInterface {
 	}
 
 	private void addOrder() {
-		int result;
+		Order newOrder;
+		boolean isAdded;
+		boolean isRunning = true;
 		String clientID = getToken("Enter client's ID: ");
-		String manufacturerID = getToken("Enter Manufacturer's ID: ");
-		String productID = getToken("Enter Product's ID: ");
-		String q = getToken("Enter quantity: ");
-		int quantity = Integer.valueOf(q);
-		result = warehouse.addOrder(clientID, productID, manufacturerID, quantity);
-		if (result == 0) {
-			System.out.println("Order successfully processed");
-		} else if (result == 1) {
-			System.out.println("Out of stock. Added to the waitlist.");
+		newOrder = warehouse.addOrder(clientID);
+		while(newOrder != null && isRunning) {
+			String manufacturerID = getToken("Enter Manufacturer's ID: ");
+			String productID = getToken("Enter Product's ID: ");
+			String q = getToken("Enter quantity: ");
+			int quantity = Integer.valueOf(q);
+			isAdded = warehouse.addLineItem(newOrder, productID, manufacturerID, quantity);
+			if (isAdded == false) {
+				System.out.println("Invalid ID");
+			} else {
+				System.out.println("Added the item to the order");
+			}
+			String response = getToken("Would you like to add another item? y/n");
+			if(response.equals("n")) {
+				System.out.println("Adding items completed");
+				isRunning = false;
+			}
+		}
+		if (warehouse.checkOrder(newOrder)) {
+			System.out.println("Order has been processed.");
 		} else {
-			System.out.println("Invalid input.");
+			System.out.println("Order added to the waitlist");
 		}
 	}
 	
@@ -301,21 +313,30 @@ public class UserInterface {
 	
 	public void displayClientWaitList() {
 		String clientID = getToken("Enter client's ID: ");
-		Iterator listOfOrders = warehouse.getWaitlistedOrders();
-		while (listOfOrders.hasNext()) {
-			Order order = (Order) (listOfOrders.next());
-			if(order.getClientReferenceId().equals(clientID))
-				System.out.println(order);
+		Client client = warehouse.searchForClient(clientID);
+		if (client == null)
+    		System.out.println("Client not found");
+		else {
+			Iterator itr = client.getWaitListOrderIDs();
+			while(itr.hasNext()) {
+				String orderID = (String) (itr.next());
+				Order order = warehouse.searchForOrder(orderID);
+                System.out.println(order.toString());
+			}
 		}
 	}
 	
 	public void displayProductWaitList() {
 		String productID = getToken("Enter product's ID: ");
-		Iterator listOfOrders = warehouse.getWaitlistedOrders();
-		while (listOfOrders.hasNext()) {
-			Order order = (Order) (listOfOrders.next());
-			if(order.getProductManufacturer().getPid().equals(productID))
-				System.out.println(order);
+		Product product = warehouse.searchForProduct(productID);
+		if (product == null)
+    		System.out.println("Product not found");
+		else {
+			Iterator itr = product.getWaitListOrderIDs();
+			while(itr.hasNext()) {
+				String orderID = (String) (itr.next());
+                System.out.println(orderID);
+			}
 		}
 	}
 	

@@ -1,6 +1,9 @@
 // package com.warehouse;
 
 import java.io.Serializable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Client implements Serializable {
 
@@ -11,6 +14,8 @@ public class Client implements Serializable {
 	private double balance;
 	private static final long serialVersionUID = 1L;
 	private static final String CLIENT_STRING = "C";
+	//added waitlist 
+	private List <String> waitListOrderIDs = new LinkedList();
 	
 	public Client(String name, String address, String phone) {
 		this.name = name;
@@ -43,6 +48,10 @@ public class Client implements Serializable {
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
+	
+	public void subtractFromBalance (double amount) {
+		balance -= amount;
+    }
 	
 	public String getPhoneNumber() {
 		return phoneNumber;
@@ -79,6 +88,18 @@ public class Client implements Serializable {
 
 	}
 
+    public void addWaitListOrderID(String orderId) {
+        waitListOrderIDs.add(orderId);
+    }
+    
+    public Iterator getWaitListOrderIDs() {
+    	return waitListOrderIDs.iterator();
+    }
+    
+    public List<String> getWaitlist() { 
+    	return this.waitListOrderIDs;
+    }
+    
 	@Override
 	public String toString() {
 		return "Client: " + name +  "\nClientID: " + clientID + "\nAddress: " + address + "\nPhone number: " + phoneNumber + "\nBalance: " + balance + "\n";

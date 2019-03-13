@@ -45,4 +45,12 @@ public class ProductManufacturer implements Serializable {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	
+	public void deductQuantity(int amountAdded){
+        quantity -= amountAdded;
+    }
+	
+	public void addQuantity(int amountAdded){
+        quantity += amountAdded;
+    }
 }
