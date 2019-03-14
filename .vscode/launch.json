@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - UserInterface",
+            "request": "launch",
+            "mainClass": "UserInterface",
+            "projectName": "warehouseSystem"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - PriceAssignmentTest",
             "request": "launch",
             "mainClass": "PriceAssignmentTest",
