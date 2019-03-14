@@ -1,3 +1,4 @@
+
 // package com.warehouse;
 
 import java.io.BufferedReader;
@@ -35,7 +36,6 @@ public class UserInterface {
 	private static final int RETRIEVE = 20;
 	private static final int HELP = 21;
 
-	
 	private UserInterface() {
 		if (yesOrNo("Look for saved data and use it?")) {
 			retrieve();
@@ -106,28 +106,30 @@ public class UserInterface {
 	public void help() {
 		System.out.println(" Enter a choice from 0 through 9 as shown below:");
 		System.out.println("|=======================================================|");
-		System.out.println("| " + EXIT                    + ".Exit out                                            |");
-		System.out.println("| " + ADD_CLIENT              + ".Add a client                                        |");
-		System.out.println("| " + ADD_MANUFACTURER        + ".Add a manufacturer                                  |");
-		System.out.println("| " + ADD_PRODUCTS            + ".Add products                                        |");
-		System.out.println("| " + DISPLAY_CLIENTS         + ".Display list of clients                             |");
-		System.out.println("| " + SHOW_MANUFACTURERS      + ".Display list of manufacturers                       |");
-		System.out.println("| " + SHOW_PRODUCTS           + ".Display list of products                            |");
-		System.out.println("| " + ASSIGN_PRICE            + ".Assign a product to a manufacturer with a price     |");
-		System.out.println("| " + UNASSIGN_PRICE          + ".Unassign a product from a manufacturer              |");
+		System.out.println("| " + EXIT + ".Exit out                                            |");
+		System.out.println("| " + ADD_CLIENT + ".Add a client                                        |");
+		System.out.println("| " + ADD_MANUFACTURER + ".Add a manufacturer                                  |");
+		System.out.println("| " + ADD_PRODUCTS + ".Add products                                        |");
+		System.out.println("| " + DISPLAY_CLIENTS + ".Display list of clients                             |");
+		System.out.println("| " + SHOW_MANUFACTURERS + ".Display list of manufacturers                       |");
+		System.out.println("| " + SHOW_PRODUCTS + ".Display list of products                            |");
+		System.out.println("| " + ASSIGN_PRICE + ".Assign a product to a manufacturer with a price     |");
+		System.out.println("| " + UNASSIGN_PRICE + ".Unassign a product from a manufacturer              |");
 		System.out.println("| " + GET_PRODUCT_BY_SUPPLIER + ".Display a list of products for a manufacturer       |");
 		System.out.println("| " + GET_SUPPLIER_BY_PRODUCT + ".Display a list of manufacturers for a product      |");
-		System.out.println("| " + PLACE_ORDER             + ".Place an order                                     |");
-		System.out.println("| " + MAKE_PAYMENT            + ".Make payment on behalf of a client                 |");
+		System.out.println("| " + PLACE_ORDER + ".Place an order                                     |");
+		System.out.println("| " + MAKE_PAYMENT + ".Make payment on behalf of a client                 |");
 		System.out.println("| " + GET_OUTSTANDING_CLIENTS + ".Display a list of clients with outstanding balance |");
-		System.out.println("| " + ACCEPT_SHIPMENT         + ".Accept shipment                                    |");
-		System.out.println("| " + GET_CLIENT_WAITLIST     + ".Display a list of waitlisted orders for a client   |");
-		System.out.println("| " + GET_PRODUCT_WAITLIST    + ".Display a list of waitlisted orders for a product  |");
-		System.out.println("| " + PLACE_ORDER_WITH_MANUFACTURER + ".Order with a manufacturer                          |");
-		System.out.println("| " + DISPLAY_ORDERS_WITH_A_MANUFACTURER    + ".Display a list of orders with a manufacturer       |");
-		System.out.println("| " + SAVE                    + ".Save the data                                      |");
-		System.out.println("| " + RETRIEVE                + ".Retrieve                                           |");
-		System.out.println("| " + HELP                    + ".Help                                               |");
+		System.out.println("| " + ACCEPT_SHIPMENT + ".Accept shipment                                    |");
+		System.out.println("| " + GET_CLIENT_WAITLIST + ".Display a list of waitlisted orders for a client   |");
+		System.out.println("| " + GET_PRODUCT_WAITLIST + ".Display a list of waitlisted orders for a product  |");
+		System.out.println(
+				"| " + PLACE_ORDER_WITH_MANUFACTURER + ".Order with a manufacturer                          |");
+		System.out.println(
+				"| " + DISPLAY_ORDERS_WITH_A_MANUFACTURER + ".Display a list of orders with a manufacturer       |");
+		System.out.println("| " + SAVE + ".Save the data                                      |");
+		System.out.println("| " + RETRIEVE + ".Retrieve                                           |");
+		System.out.println("| " + HELP + ".Help                                               |");
 		System.out.println("|=======================================================|");
 	}
 
@@ -141,7 +143,7 @@ public class UserInterface {
 		} else {
 			System.out.println(result);
 		}
-		
+
 	}
 
 	public void addManufacturer() {
@@ -152,7 +154,7 @@ public class UserInterface {
 		if (result == null) {
 			System.out.println("Could not add manufacturer");
 		} else {
-		System.out.println(result);
+			System.out.println(result);
 		}
 	}
 
@@ -222,22 +224,20 @@ public class UserInterface {
 	public void getProductBySupplier() {
 		String mid = getToken("Enter the manufacturer's ID");
 		List<String> myList = warehouse.getProductbySupplier(mid);
-		if(myList.isEmpty()) {
+		if (myList.isEmpty()) {
 			System.out.println("There is no products assigned to manufacturer with ID " + mid);
-		}
-		else {
+		} else {
 			System.out.println(warehouse.getProductbySupplier(mid));
 			System.out.println();
-		}	
+		}
 	}
 
 	public void getSupplierByProduct() {
 		String pid = getToken("Enter the product's ID");
 		List<String> myList = warehouse.getSupplierbyProduct(pid);
-		if(myList.isEmpty()) {
+		if (myList.isEmpty()) {
 			System.out.println("There is no manufacturers assigned to product with ID " + pid);
-		}
-		else {
+		} else {
 			System.out.println(warehouse.getSupplierbyProduct(pid));
 			System.out.println();
 		}
@@ -249,7 +249,7 @@ public class UserInterface {
 		boolean isRunning = true;
 		String clientID = getToken("Enter client's ID: ");
 		newOrder = warehouse.addOrder(clientID);
-		while(newOrder != null && isRunning) {
+		while (newOrder != null && isRunning) {
 			String manufacturerID = getToken("Enter Manufacturer's ID: ");
 			String productID = getToken("Enter Product's ID: ");
 			String q = getToken("Enter quantity: ");
@@ -261,7 +261,7 @@ public class UserInterface {
 				System.out.println("Added the item to the order");
 			}
 			String response = getToken("Would you like to add another item? y/n");
-			if(response.equals("n")) {
+			if (response.equals("n")) {
 				System.out.println("Adding items completed");
 				isRunning = false;
 			}
@@ -272,16 +272,16 @@ public class UserInterface {
 			System.out.println("Order added to the waitlist");
 		}
 	}
-	
+
 	public void displayOutstandingClients() {
 		Iterator listOfClients = warehouse.getClients();
 		while (listOfClients.hasNext()) {
 			Client client = (Client) (listOfClients.next());
-			if(client.isOutstanding())
+			if (client.isOutstanding())
 				System.out.println(client);
 		}
 	}
-	
+
 	public void makePayment() {
 		int result;
 		String clientID = getToken("Enter client's ID: ");
@@ -296,50 +296,52 @@ public class UserInterface {
 			System.out.println("The payment was received.");
 		}
 	}
-	
+
 	public void acceptShipment() {
 		ProductManufacturer result;
+		String orderID = getToken("Enter order ID: ");
 		String manufacturerID = getToken("Enter manufacturer's ID: ");
 		String productID = getToken("Enter product's ID: ");
 		String q = getToken("Enter quantity: ");
 		int quantity = Integer.valueOf(q);
 		result = warehouse.acceptShipment(productID, manufacturerID, quantity);
+		warehouse.deleteWaitListOrder(orderID, productID);
 		if (result != null) {
 			System.out.println(result);
 		} else {
 			System.out.println("Wrong product's ID or manufacturer's ID.");
 		}
 	}
-	
+
 	public void displayClientWaitList() {
 		String clientID = getToken("Enter client's ID: ");
 		Client client = warehouse.searchForClient(clientID);
 		if (client == null)
-    		System.out.println("Client not found");
+			System.out.println("Client not found");
 		else {
 			Iterator itr = client.getWaitListOrderIDs();
-			while(itr.hasNext()) {
+			while (itr.hasNext()) {
 				String orderID = (String) (itr.next());
 				Order order = warehouse.searchForOrder(orderID);
-                System.out.println(order.toString());
+				System.out.println(order.toString());
 			}
 		}
 	}
-	
+
 	public void displayProductWaitList() {
 		String productID = getToken("Enter product's ID: ");
 		Product product = warehouse.searchForProduct(productID);
 		if (product == null)
-    		System.out.println("Product not found");
+			System.out.println("Product not found");
 		else {
 			Iterator itr = product.getWaitListOrderIDs();
-			while(itr.hasNext()) {
+			while (itr.hasNext()) {
 				String orderID = (String) (itr.next());
-                System.out.println(orderID);
+				System.out.println(orderID);
 			}
 		}
 	}
-	
+
 	private void addOrderWithManufacturer() {
 		OrderWithManufacturer result;
 		String manufacturerID = getToken("Enter Manufacturer's ID: ");
@@ -354,16 +356,16 @@ public class UserInterface {
 			System.out.println("Invalid ID.");
 		}
 	}
-	
+
 	public void displayOrdersWithAManufacturer() {
 		String manufacturerID = getToken("Enter manufacturer's ID: ");
 		Iterator listOfOrders = warehouse.OrdersWithAManufacturer(manufacturerID);
 		while (listOfOrders.hasNext()) {
 			OrderWithManufacturer orderWithManufacturer = (OrderWithManufacturer) (listOfOrders.next());
-		    System.out.println(orderWithManufacturer); 
+			System.out.println(orderWithManufacturer);
 		}
 	}
-	
+
 	public void save() {
 		if (warehouse.save()) {
 			System.out.println("The warehouse has been successfully saved in the file WarehouseData \n");
