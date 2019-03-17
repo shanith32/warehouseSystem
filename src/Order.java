@@ -53,9 +53,10 @@ public class Order implements Serializable {
     	this.lineItems = lineItems;
     }
     
-    public void addLineItem (ProductManufacturer productManufacturer, int quantity) {
+    public LineItem addLineItem (ProductManufacturer productManufacturer, int quantity) {
         LineItem newItem = new LineItem(productManufacturer, quantity);
         lineItems.add(newItem);
+        return newItem;
     }
     
     public void addDollarAmt(ProductManufacturer productManufacturer) {
@@ -65,7 +66,7 @@ public class Order implements Serializable {
     
 	@Override
 	public String toString() {
-		return "Order: \nClient ID: " + clientReferenceId +", Order ID: " + id + ", Date: "+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(date.getTimeInMillis()) 
+		return "Order Details \nClient ID: " + clientReferenceId +", Order ID: " + id + ", Date: "+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(date.getTimeInMillis()) 
 				+ "\n";
 	}
 

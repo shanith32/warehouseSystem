@@ -16,7 +16,7 @@ public class Client implements Serializable {
 	private static final String CLIENT_STRING = "C";
 	//added waitlist 
 	private List <String> waitListOrderIDs = new LinkedList();
-	
+
 	public Client(String name, String address, String phone) {
 		this.name = name;
 		this.address = address;
@@ -48,11 +48,11 @@ public class Client implements Serializable {
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
-	
+
 	public void subtractFromBalance (double amount) {
 		balance -= amount;
-    }
-	
+	}
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -60,7 +60,7 @@ public class Client implements Serializable {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	
+
 	public String getAddress() {
 		return address;
 	}
@@ -68,7 +68,7 @@ public class Client implements Serializable {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
+
 	public void charge(double amount) {
 		balance = balance + amount;
 	}
@@ -88,18 +88,18 @@ public class Client implements Serializable {
 
 	}
 
-    public void addWaitListOrderID(String orderId) {
-        waitListOrderIDs.add(orderId);
-    }
-    
-    public Iterator getWaitListOrderIDs() {
-    	return waitListOrderIDs.iterator();
-    }
-    
-    public List<String> getWaitlist() { 
-    	return this.waitListOrderIDs;
-    }
-    
+	public void addWaitListOrderID(String orderId) {
+		waitListOrderIDs.add(orderId);
+	}
+
+	public Iterator getWaitListOrderIDs() {
+		return waitListOrderIDs.iterator();
+	}
+
+	public List<String> getWaitlist() { 
+		return this.waitListOrderIDs;
+	}
+
 	@Override
 	public String toString() {
 		return "Client: " + name +  "\nClientID: " + clientID + "\nAddress: " + address + "\nPhone number: " + phoneNumber + "\nBalance: " + balance + "\n";

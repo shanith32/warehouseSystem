@@ -12,7 +12,8 @@ public class ProductManufacturer implements Serializable {
 	private String pid;
 	private double price;
 	private int quantity;
-
+	
+	
 	public ProductManufacturer(String mid, String pid, double price) {
 		this.mid = mid;
 		this.pid = pid;
@@ -33,8 +34,8 @@ public class ProductManufacturer implements Serializable {
 	}
 
 	public String toString() {
-		return "ProductManufacturer: \nManufacturer's ID: " + mid + "\nProduct's ID: " + pid + "\nPrice: $" + price
-				+ "\nQuantity: " + quantity + "\n";
+		return "ProductManufacturer: \nManufacturer's ID: " + mid + "\nProduct's ID: " + pid 
+				+ "\nPrice: $" + price + "\nQuantity: " + quantity + "\n";
 	}
 
 	public int getQuantity() {
@@ -44,12 +45,12 @@ public class ProductManufacturer implements Serializable {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-
-	public void deductQuantity(int amountAdded) {
-		quantity -= amountAdded;
-	}
-
-	public void addQuantity(int amountAdded) {
-		quantity += amountAdded;
-	}
+	
+	public void deductQuantity(int amountAdded){
+        quantity -= amountAdded;
+    }
+	
+	public void addQuantity(int amountAdded){
+        quantity += amountAdded;
+    }
 }

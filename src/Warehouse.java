@@ -1,6 +1,3 @@
-
-// package com.warehouse;
-
 import java.awt.List;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -19,7 +16,7 @@ public class Warehouse implements Serializable {
 	private ManufacturerList manufacturerList;
 	private ProductManufacturerList productManufacturerList;
 	private OrderList orderList;
-	// private WaitList waitList;
+	//private WaitList waitList;
 
 	private Warehouse() {
 		clientList = clientList.instance();
@@ -27,7 +24,6 @@ public class Warehouse implements Serializable {
 		manufacturerList = ManufacturerList.instance();
 		productManufacturerList = ProductManufacturerList.instance();
 		orderList = OrderList.instance();
-		// waitList = WaitList.instance();
 	}
 
 	public static Warehouse instance() {
@@ -98,10 +94,6 @@ public class Warehouse implements Serializable {
 		return manufacturerList.getManufacturers();
 	}
 
-	// public Iterator getWaitlistedOrders() {
-	// return waitList.getOrders();
-	// }
-
 	public Client searchForClient(String clientID) {
 		Client client = clientList.searchClient(clientID);
 		return client;
@@ -112,50 +104,45 @@ public class Warehouse implements Serializable {
 		return product;
 	}
 
-	// added and checked
+	//added and checked
 	public boolean addLineItem(Order order, String productID, String manufacturerID, int quantity) {
-		ProductManufacturer productManufacturer = productManufacturerList.searchProductManufacturer(productID,
-				manufacturerID);
+		ProductManufacturer productManufacturer = productManufacturerList.searchProductManufacturer(productID, manufacturerID);
 		Client client = clientList.searchClient(order.getClientId());
-		order.addLineItem(productManufacturer, quantity);
+		LineItem lineItem = order.addLineItem(productManufacturer, quantity);
+//		productManufacturer.setQuantity(quantity - 1);
 		if (productManufacturer != null && client != null) {
 			if (productManufacturer.getQuantity() < quantity) {
 				order.setCanProcess(false);
+			} else {
+				productManufacturer.deductQuantity(quantity);;
+				client.charge(lineItem.getTotal());
+				lineItem.setProcessed(true);
 			}
-			return true;
+			return true;	
 		} else {
 			return false;
 		}
 	}
 
 	public boolean checkOrder(Order order) {
-		if (order.canProcess() == true) {
-			processOrder(order);
+		if(order.canProcess() == true) {
 			return true;
 		} else {
 			Client client = clientList.searchClient(order.getClientId());
 			client.addWaitListOrderID(order.getId());
 			Iterator lineItems = order.getLineItems();
-			while (lineItems.hasNext()) {
+			while(lineItems.hasNext()) {
 				LineItem lineItem = (LineItem) lineItems.next();
-				ProductManufacturer productManufactuer = lineItem.getProductManufacturer();
-				Product product = productList.searchProduct(productManufactuer.getPid());
-				product.addWaitListOrderID(order.getId());
+				if(lineItem.getProcessed() == false) {
+					ProductManufacturer productManufactuer = lineItem.getProductManufacturer();
+					Product product = productList.searchProduct(productManufactuer.getPid());
+					product.addWaitListOrderID(order.getId());
+				}
 			}
 			return false;
 		}
 	}
 
-	public void processOrder(Order order) {
-		Iterator lineItems = order.getLineItems();
-		while (lineItems.hasNext()) {
-			LineItem lineItem = (LineItem) lineItems.next();
-			ProductManufacturer productManufacturer = lineItem.getProductManufacturer();
-			productManufacturer.deductQuantity(lineItem.getQuantity());
-			Client client = clientList.searchClient(order.getClientId());
-			client.charge(lineItem.getTotal());
-		}
-	}
 
 	public Order addOrder(String clientID) {
 		Client client = clientList.searchClient(clientID);
@@ -167,16 +154,18 @@ public class Warehouse implements Serializable {
 		return null;
 	}
 
+	
 	public Order searchForOrder(String orderID) {
 		Order order = orderList.searchOrder(orderID);
 		return order;
 	}
 
+	
 	public int makePayment(String clientID, double amount) {
 		Client client = clientList.searchClient(clientID);
-		if (client == null) {
+		if(client == null) {
 			return 0;
-		} else if (client.getBalance() < amount) {
+		} else if(client.getBalance() < amount) {
 			return 1;
 		}
 		client.setBalance(client.getBalance() - amount);
@@ -184,8 +173,7 @@ public class Warehouse implements Serializable {
 	}
 
 	public ProductManufacturer acceptShipment(String productId, String manufacturerId, int quantity) {
-		ProductManufacturer productManufacturer = productManufacturerList.searchProductManufacturer(productId,
-				manufacturerId);
+		ProductManufacturer productManufacturer = productManufacturerList.searchProductManufacturer(productId, manufacturerId);
 		if (productManufacturer != null) {
 			productManufacturer.setQuantity(productManufacturer.getQuantity() + quantity);
 			return productManufacturer;
@@ -193,25 +181,12 @@ public class Warehouse implements Serializable {
 		return null;
 	}
 
-	public Boolean deleteWaitListOrder(String orderId, String productId) {
-		Product Product = productList.searchProduct(productId);
-		if (Product == null) {
-			return false;
-		}
-
-		Product.deleteWaitListOrderID(orderId);
-		return true;
-	}
-
-	public OrderWithManufacturer addManufacturerOrder(String orderId, String productId, String manufacturerId,
-			int quantity) {
-		ProductManufacturer productManufacturer = productManufacturerList.searchProductManufacturer(productId,
-				manufacturerId);
+	public OrderWithManufacturer addManufacturerOrder(String orderId, String productId, String manufacturerId, int quantity)	{
+		ProductManufacturer productManufacturer = productManufacturerList.searchProductManufacturer(productId, manufacturerId);
 		Product product = productList.searchProduct(productId);
 		Manufacturer manufacturer = manufacturerList.searchManufacturer(manufacturerId);
 		if (productManufacturer != null && product != null) {
-			OrderWithManufacturer orderWithManufacturer = new OrderWithManufacturer(orderId, productManufacturer,
-					quantity);
+			OrderWithManufacturer orderWithManufacturer = new OrderWithManufacturer(orderId, productManufacturer, quantity);
 			product.addOrderWithManufacturer(orderWithManufacturer);
 			manufacturer.addOrderWithManufacturer(orderWithManufacturer);
 			return orderWithManufacturer;
@@ -221,10 +196,7 @@ public class Warehouse implements Serializable {
 
 	public Iterator OrdersWithAManufacturer(String manufacturerId) {
 		Manufacturer manufacturer = manufacturerList.searchManufacturer(manufacturerId);
-
 		if (manufacturer != null) {
-			// System.out.println(manufacturer);
-			// System.out.println(manufacturer.getOrders().toString());
 			return manufacturer.getOrders();
 		}
 		return null;
@@ -282,5 +254,4 @@ public class Warehouse implements Serializable {
 			e.printStackTrace();
 		}
 	}
-
 }

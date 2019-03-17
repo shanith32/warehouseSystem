@@ -1,6 +1,0 @@
-// Workspace settings
-{
-  "files.exclude": {
-    "**/*.class": true
-  }
-}
