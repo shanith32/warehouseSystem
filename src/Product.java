@@ -10,7 +10,6 @@ public class Product implements Serializable {
 	private String category;
 	private String id;
 	private static final String PRODUCT_STRING = "P";
-	private List<OrderWithManufacturer> orders = new LinkedList<OrderWithManufacturer>();
 	private List <String> waitListOrderIDs = new LinkedList();
 	
 	public Product(String name, String category) {
@@ -34,17 +33,21 @@ public class Product implements Serializable {
 	public boolean equals(String id) {
 		return this.id.equals(id);
 	}
-	
-	public void addOrderWithManufacturer(OrderWithManufacturer orderWithManufacturer) {
-		orders.add(orderWithManufacturer);
-	}
 
 	public Iterator getWaitListOrderIDs(){
         return waitListOrderIDs.iterator();
     }
 	
+	public List getWaitListOrderIDsAsAList() {
+		return waitListOrderIDs;
+	}
+	
 	public void addWaitListOrderID(String orderId){
         waitListOrderIDs.add(orderId);
+    }
+	
+	public void deleteWaitListOrderID(String orderId){
+        waitListOrderIDs.remove(orderId);
     }
 	
 	public String toString() {

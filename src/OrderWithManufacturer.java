@@ -2,14 +2,15 @@ import java.io.Serializable;
 
 public class OrderWithManufacturer implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private static final String ORDER_MANUFACRTURER_STRING = "OM";
 	private int quantity;
 	private String id;
 	ProductManufacturer productManufacturer;
 
-	public OrderWithManufacturer(String orderId, ProductManufacturer productManufacturer, int quantity) {
+	public OrderWithManufacturer(ProductManufacturer productManufacturer, int quantity) {
 		this.productManufacturer = productManufacturer;
 		this.quantity = quantity;
-		this.id = orderId;
+		this.id = ORDER_MANUFACRTURER_STRING + (OrderWithManufacturerIdServer.instance()).getId();
 	}
 	
 	public int getQuantity() {

@@ -1,4 +1,3 @@
-import java.awt.List;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -7,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Warehouse implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -172,22 +172,61 @@ public class Warehouse implements Serializable {
 		return 2;
 	}
 
-	public ProductManufacturer acceptShipment(String productId, String manufacturerId, int quantity) {
-		ProductManufacturer productManufacturer = productManufacturerList.searchProductManufacturer(productId, manufacturerId);
-		if (productManufacturer != null) {
-			productManufacturer.setQuantity(productManufacturer.getQuantity() + quantity);
-			return productManufacturer;
+	public OrderWithManufacturer checkShipmentOrder(String orderManufacturerID) {
+		OrderWithManufacturer orderWithManufacturer = manufacturerList.searchManufacturerOrder(orderManufacturerID);
+		if (orderWithManufacturer != null) {
+			return orderWithManufacturer;
 		}
 		return null;
 	}
+	
+	public boolean deleteManufacturerOrder(OrderWithManufacturer order) {
+		return manufacturerList.deleteManufacturerOrder(order);
+	}
+	
+	public boolean acceptShipment(OrderWithManufacturer orderManufacturer) {
+		ProductManufacturer productManufacturer = orderManufacturer.getProductManufacturer();
+		String pid = productManufacturer.getPid();
+		Product product = productList.searchProduct(pid);
+		int q = orderManufacturer.getQuantity();
+		
+		List itr = product.getWaitListOrderIDsAsAList();
+		for (int i = 0 ; i< itr.size() ; i++) {
+			boolean available = true;
+			String orderID = (String) itr.get(i);
+			Order order = searchForOrder(orderID);
+			Iterator lineItems = order.getLineItems();
+			
+			while(lineItems.hasNext() && available) {
+				LineItem lineItem = (LineItem) lineItems.next();
+				if(lineItem.getProcessed() == false) {
+					if(q >= lineItem.getQuantity()) {
+						lineItem.setProcessed(true);
+						product.deleteWaitListOrderID(order.getId());
+						q = q - lineItem.getQuantity();
+					}else {
+						available = false;
+					}	
+				}
+			}
+			if(available){
+				order.setCanProcess(true);
+				String clientId = order.getClientId();
+				Client client = clientList.searchClient(clientId);
+				client.deleteWaitListOrderID(order.getId());	
+			} else {
+				return false;
+			}
+		}
+		productManufacturer.setQuantity(productManufacturer.getQuantity() + q);
+		return true;
+	}
 
-	public OrderWithManufacturer addManufacturerOrder(String orderId, String productId, String manufacturerId, int quantity)	{
+	public OrderWithManufacturer addManufacturerOrder(String productId, String manufacturerId, int quantity)	{
 		ProductManufacturer productManufacturer = productManufacturerList.searchProductManufacturer(productId, manufacturerId);
-		Product product = productList.searchProduct(productId);
 		Manufacturer manufacturer = manufacturerList.searchManufacturer(manufacturerId);
-		if (productManufacturer != null && product != null) {
-			OrderWithManufacturer orderWithManufacturer = new OrderWithManufacturer(orderId, productManufacturer, quantity);
-			product.addOrderWithManufacturer(orderWithManufacturer);
+		if (productManufacturer != null) {
+			OrderWithManufacturer orderWithManufacturer = new OrderWithManufacturer(productManufacturer, quantity);
 			manufacturer.addOrderWithManufacturer(orderWithManufacturer);
 			return orderWithManufacturer;
 		}

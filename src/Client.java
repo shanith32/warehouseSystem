@@ -99,6 +99,11 @@ public class Client implements Serializable {
 	public List<String> getWaitlist() { 
 		return this.waitListOrderIDs;
 	}
+	
+	public void deleteWaitListOrderID(String orderId){
+        waitListOrderIDs.remove(orderId);
+    }
+	
 
 	@Override
 	public String toString() {

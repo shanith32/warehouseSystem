@@ -298,16 +298,30 @@ public class UserInterface {
 	}
 	
 	public void acceptShipment() {
-		ProductManufacturer result;
-		String manufacturerID = getToken("Enter manufacturer's ID: ");
-		String productID = getToken("Enter product's ID: ");
-		String q = getToken("Enter quantity: ");
-		int quantity = Integer.valueOf(q);
-		result = warehouse.acceptShipment(productID, manufacturerID, quantity);
-		if (result != null) {
-			System.out.println(result);
+		OrderWithManufacturer orderAvilable;
+		String orderManufacturerID = getToken("Enter the order ID for the manufacturer: ");
+		orderAvilable = warehouse.checkShipmentOrder(orderManufacturerID);
+		if (orderAvilable != null) {
+			System.out.println("Here's the order details,");
+			System.out.println(orderAvilable);
+			if(yesOrNo("Do you confirm the shipment order and accept the shipment?")) {
+				boolean complete;
+				complete = warehouse.acceptShipment(orderAvilable);
+				if(warehouse.deleteManufacturerOrder(orderAvilable)) {
+					if(!complete) {
+						System.out.println("Order processed and extra quantity added to the stock");
+					}else {
+						System.out.println("Order processed");
+					}
+				}else {
+					System.out.println("error occurred while deleting the processed order");
+				}
+			
+			}else {
+				System.out.println(" ");
+			}	
 		} else {
-			System.out.println("Wrong product's ID or manufacturer's ID.");
+			System.out.println("Wrong order ID for the manufacturer.");
 		}
 	}
 	
@@ -321,7 +335,9 @@ public class UserInterface {
 			while(itr.hasNext()) {
 				String orderID = (String) (itr.next());
 				Order order = warehouse.searchForOrder(orderID);
-                System.out.println(order.toString());
+				if(order != null) {
+					System.out.println(order.toString());
+                }
 			}
 		}
 	}
@@ -336,7 +352,9 @@ public class UserInterface {
 			while(itr.hasNext()) {
 				String orderID = (String) (itr.next());
 				Order order = warehouse.searchForOrder(orderID);
-                System.out.println(order.toString());
+				if(order != null) {
+	                System.out.println(order.toString());
+	            }
 			}
 		}
 	}
@@ -345,10 +363,9 @@ public class UserInterface {
 		OrderWithManufacturer result;
 		String manufacturerID = getToken("Enter Manufacturer's ID: ");
 		String productID = getToken("Enter Product's ID: ");
-		String orderID = getToken("Enter order's ID: ");
 		String q = getToken("Enter quantity: ");
 		int quantity = Integer.valueOf(q);
-		result = warehouse.addManufacturerOrder(orderID, productID, manufacturerID, quantity);
+		result = warehouse.addManufacturerOrder(productID, manufacturerID, quantity);
 		if (result != null) {
 			System.out.println(result);
 		} else {
@@ -361,7 +378,7 @@ public class UserInterface {
 		Iterator listOfOrders = warehouse.OrdersWithAManufacturer(manufacturerID);
 		while (listOfOrders.hasNext()) {
 			OrderWithManufacturer orderWithManufacturer = (OrderWithManufacturer) (listOfOrders.next());
-		    System.out.println(orderWithManufacturer); 
+		    System.out.println(orderWithManufacturer.toString()); 
 		}
 	}
 	

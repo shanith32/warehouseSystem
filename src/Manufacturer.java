@@ -42,6 +42,22 @@ public class Manufacturer implements Serializable {
 		return orders.iterator();
 	}
 	
+	public OrderWithManufacturer searchOrder(String potentialOrderID) {
+		Iterator<OrderWithManufacturer> orderWithManufacturerIterator = orders.iterator();
+		while (orderWithManufacturerIterator.hasNext()) {
+			OrderWithManufacturer pOrder = (OrderWithManufacturer) orderWithManufacturerIterator.next();
+			if (pOrder.getId().equals(potentialOrderID)) {
+				System.out.println("Manufacturer Order matched");
+				return pOrder;
+			}
+		}
+		return null;
+	}
+	
+	public boolean deleteOrder(OrderWithManufacturer orderID) {
+		return orders.remove(orderID);
+	}
+	
 	@Override
 	public String toString() {
 		return "Manufacturer Info: \nName: " + name + "\nAddress: " + address + "\nID: " + id + "\n";

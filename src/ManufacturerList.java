@@ -69,6 +69,28 @@ public class ManufacturerList implements Serializable {
 		}
 		return null;
 	}
+	
+	public OrderWithManufacturer searchManufacturerOrder(String orderId) {
+		Iterator<Manufacturer> manufacturersIterator = manufacturers.iterator();
+		while (manufacturersIterator.hasNext()) {
+			Manufacturer pManufacturer = (Manufacturer) manufacturersIterator.next();
+			if (pManufacturer.searchOrder(orderId) != null) {
+				return pManufacturer.searchOrder(orderId);
+			}
+		}
+		return null;
+	}
+	
+	public boolean deleteManufacturerOrder(OrderWithManufacturer order) {
+		Iterator<Manufacturer> manufacturersIterator = manufacturers.iterator();
+		while (manufacturersIterator.hasNext()) {
+			Manufacturer pManufacturer = (Manufacturer) manufacturersIterator.next();
+			if (pManufacturer.deleteOrder(order)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public String toString() {
 		return manufacturers.toString();
